@@ -4,7 +4,7 @@ longDat <- function(data, name, num, perturbed = TRUE) {
   if (perturbed == TRUE) {
     if (max(num) > 9) {
   newnames <- paste(name, num, sep="")
-  v1s1 <- data[which(data$BATA1==1), c("ID", paste(name,"1A10",1:9, sep=""), 
+  v1s1 <- data[which(data$BATA1==1), c("ID", paste(name,"1A10",1:9, sep=""),
                                        paste(name, "1A1", 10:max(num), sep=""))]
     colnames(v1s1) <- c("id", newnames)
     v1s1$Visit <- 1
@@ -44,7 +44,7 @@ longDat <- function(data, name, num, perturbed = TRUE) {
     colnames(v2s4) <- c("id", newnames)
     v2s4$Visit <- 2
     v2s4$Scenario <- 4
-    
+
   #Combining all together into a new set
   longdata <- rbind(v1s1, v1s2, v1s3, v1s4, v2s1, v2s2, v2s3, v2s4)
   #allid's with visit for each
@@ -72,9 +72,9 @@ longDat <- function(data, name, num, perturbed = TRUE) {
   longdata[which(longdata[,"Scenario"]==2), "ec4"] <- .3333
   longdata[which(longdata[,"Scenario"]==3), "ec4"] <- .3333
   longdata[which(longdata[,"Scenario"]==4), "ec4"] <- -1
-  
+
   #reorder to make it clearer
-  longdata <- longdata[,c("id","BAT1", "BAT2", 
+  longdata <- longdata[,c("id","BAT1", "BAT2",
                           "Visit", "Scenario", "ec2", "ec3", "ec4",
                           newnames)]
   return(longdata)
@@ -120,7 +120,7 @@ longDat <- function(data, name, num, perturbed = TRUE) {
     colnames(v2s4) <- c("id", newnames)
     v2s4$Visit <- 2
     v2s4$Scenario <- 4
-    
+
   #Combining all together into a new set
   longdata <- rbind(v1s1, v1s2, v1s3, v1s4, v2s1, v2s2, v2s3, v2s4)
   #allid's with visit for each
@@ -148,9 +148,9 @@ longDat <- function(data, name, num, perturbed = TRUE) {
   longdata[which(longdata[,"Scenario"]==2), "ec4"] <- .3333
   longdata[which(longdata[,"Scenario"]==3), "ec4"] <- .3333
   longdata[which(longdata[,"Scenario"]==4), "ec4"] <- -1
-  
+
   #reorder to make it clearer
-  longdata <- longdata[,c("id","BAT1", "BAT2", 
+  longdata <- longdata[,c("id","BAT1", "BAT2",
                           "Visit", "Scenario", "ec2", "ec3", "ec4",
                           newnames)]
   return(longdata)
@@ -160,7 +160,7 @@ longDat <- function(data, name, num, perturbed = TRUE) {
   else {
     if (max(num) > 9) {
   newnames <- paste(name, num, sep="")
-  v1a <- data[which(data$BAT1==1), c("ID", paste(name,"1A00",1:9, sep=""), 
+  v1a <- data[which(data$BAT1==1), c("ID", paste(name,"1A00",1:9, sep=""),
                                        paste(name, "1A0", 10:max(num), sep=""))]
     colnames(v1a) <- c("id", newnames)
     v1a$Visit <- 1
@@ -174,7 +174,7 @@ longDat <- function(data, name, num, perturbed = TRUE) {
     colnames(v2b) <- c("id", newnames)
     v2b$Visit <- 2
 
-    
+
   #Combining all together into a new set
   longdata <- rbind(v1a, v1b, v2a, v2b)
   #allid's with visit for each
@@ -185,9 +185,9 @@ longDat <- function(data, name, num, perturbed = TRUE) {
   longid <- rbind(longid1, longid2)
   #merge together, output should have 854*2 rows
   longdata <- merge(longdata, longid, all.y=TRUE)
-  
+
   #reorder to make it clearer
-  longdata <- longdata[,c("id","BAT1", "BAT2", 
+  longdata <- longdata[,c("id","BAT1", "BAT2",
                           "Visit", newnames)]
   return(longdata)
     }
@@ -206,7 +206,7 @@ longDat <- function(data, name, num, perturbed = TRUE) {
     colnames(v2b) <- c("id", newnames)
     v2b$Visit <- 2
 
-    
+
   #Combining all together into a new set
   longdata <- rbind(v1a, v1b, v2a, v2b)
   #allid's with visit for each
@@ -217,12 +217,12 @@ longDat <- function(data, name, num, perturbed = TRUE) {
   longid <- rbind(longid1, longid2)
   #merge together, output should have 854*2 rows
   longdata <- merge(longdata, longid, all.y=TRUE)
-  
+
   #reorder to make it clearer
-  longdata <- longdata[,c("id","BAT1", "BAT2", 
+  longdata <- longdata[,c("id","BAT1", "BAT2",
                           "Visit", newnames)]
   return(longdata)
-      
+
     }
 }}
 # This function should be useful
@@ -233,3 +233,5 @@ harmonize <- function(data, varnames, scenario, oldvalue, newvalue) {
   }
   return(data[,varnames])
 }
+
+# adding some work from the UNC computer
