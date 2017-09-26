@@ -238,33 +238,39 @@ harmonize <- function(data, varnames, scenario, oldvalue, newvalue) {
 
 TestDifModels <- function(directory = getwd(),
                           nameOfImpactModel,
-                          namesofDifModels) {
+                          namesofDifModels,
+                          allMplusSummaries = NULL) {
   # To do
-  # 1. make all filenames lowercase automatically
   # 2. option to feed in MPLUS extracted models and not read everytime
-
-  # extract all models in folder
-  allSummaries <- MplusAutomation::extractModelSummaries(target = directory)
+  # make all names lowercase
+  nameOfImpactModel <- tolower(nameOfImpactModel)
+  namesofDifModels  <- tolower(namesofDifModels)
+  # if user provodes the dataframe of all models use that
+  if (is.null(allMplusSummaries)) {
+    allMplusSummaries <- MplusAutomation::extractModelSummaries(target = directory)
+  }
   # Save the Comparison Model
-  refModel <- allSummaries[grep(nameOfImpactModel, allSummaries$Filename), # Select Rows
-                           c("Filename", "Parameters", "LL", "BIC")]         # Select Cols
+  refModel <- allMplusSummaries[grep(nameOfImpactModel,
+                                     allMplusSummaries$Filename),           # Select Rows
+                                c("Filename", "Parameters", "LL", "BIC")]   # Select Cols
   # Save the other models in a dataframe
   compModels <- data.frame()
   for (i in seq(namesofDifModels)) {
-    temp <- allSummaries[grep(namesofDifModels[i], allSummaries$Filename), # Select Rows
-                         c("Filename", "Parameters", "LL", "BIC")]          # Select Cols
+    temp <- allMplusSummaries[grep(namesofDifModels[i],
+                                   allMplusSummaries$Filename),             # Select Rows
+                              c("Filename", "Parameters", "LL", "BIC")]          # Select Cols
     compModels <- rbind(compModels, temp)
   }
   # Compute a LRT's ect
-  compModels$LRT <- 2*(compModels$LL-refModel$LL)
+  compModels$LRT    <- 2*(compModels$LL-refModel$LL)
   compModels$LRT.df <- compModels$Parameters - refModel$Parameters
-  compModels$LRT.p <- pchisq(compModels$LRT, df = compModels$LRT.df, lower.tail = FALSE)
+  compModels$LRT.p  <- pchisq(compModels$LRT, df = compModels$LRT.df, lower.tail = FALSE)
   # Sort for most Significant
   compModels <- compModels[order(compModels$LRT.p, decreasing = FALSE),]
   # Return the dataFrame
-  refModel$LRT <- NA
+  refModel$LRT    <- NA
   refModel$LRT.df <- NA
-  refModel$LRT.p <- NA
+  refModel$LRT.p  <- NA
   return(rbind(refModel, compModels))
 }
 
