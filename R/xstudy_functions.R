@@ -274,4 +274,43 @@ TestDifModels <- function(directory = getwd(),
   return(rbind(refModel, compModels))
 }
 
+MplusErrors <- function(directory = getwd(), filePattern = NULL) {
+  # First create the pattern to identify files
+  if (is.null(filePattern)) {
+    myPattern = ".out"
+  } else {
+    myPattern = paste(filePattern, ".*.out", sep = "")
+  }
+  # Add slashes to end of directory
+  if (substr(directory, start = nchar(directory),stop = nchar(directory)) == "\\" |
+      substr(directory, start = nchar(directory),stop = nchar(directory)) == "/") {
+  } else {
+    directory <- paste(directory, "\\", sep = "")
+  }
+  # create a list and start save file names
+  results <- NULL
+  results$names = list.files(path = directory,
+                             pattern = myPattern,
+                             all.files = FALSE,
+                             full.names = ,
+                             recursive = FALSE,
+                             ignore.case = TRUE,
+                             include.dirs = FALSE,
+                             no.. = FALSE)
+  # Go over every file read it and search it
+  for (i in seq(results$names)) {
+    temp                          <- readLines(paste(directory, results$names[i], sep = ""))
+    results$normally[i]           <- any(grepl(x=temp, pattern = "normally", ignore.case = TRUE))
+    results$saddle[i]             <- any(grepl(x=temp, pattern = "saddle", ignore.case = TRUE))
+    results$avoidSingularity[i]   <- any(grepl(x=temp, pattern = "avoid singularity", ignore.case = TRUE))
+  }
+  # create a DF of results
+  # list to DF
+  df <- do.call(cbind.data.frame, results)
+  # list to DF with unlist
+  # df <- data.frame(matrix(unlist(results), nrow =  length(results$names), byrow=F))
+  # list to DF with plyr - doesn't work
+  # df <- plyr::ldply (results, data.frame)
+  return(df)
+}
 # adding some work from the UNC computer
