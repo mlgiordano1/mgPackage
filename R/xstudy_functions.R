@@ -275,6 +275,11 @@ TestDifModels <- function(directory = getwd(),
 }
 
 MplusErrors <- function(directory = getwd(), filePattern = NULL) {
+  # TODO
+  # Think about ways to make this function quicker
+  # Check MplusAutomation for how it reads files
+  # Could check performance with read_lines() from the readr package vs base readLines().
+
   # First create the pattern to identify files
   if (is.null(filePattern)) {
     myPattern = ".out"
@@ -299,11 +304,13 @@ MplusErrors <- function(directory = getwd(), filePattern = NULL) {
                              no.. = FALSE)
   # Go over every file read it and search it
   for (i in seq(results$names)) {
-    temp                          <- readLines(paste(directory, results$names[i], sep = ""))
+    #temp                          <- readLines(paste(directory, results$names[i], sep = ""))
+    temp                          <- readr::read_lines(file = paste(directory, results$names[i], sep = ""))
     results$normally[i]           <- any(grepl(x=temp, pattern = "normally", ignore.case = TRUE))
     results$saddle[i]             <- any(grepl(x=temp, pattern = "saddle", ignore.case = TRUE))
     results$avoidSingularity[i]   <- any(grepl(x=temp, pattern = "avoid singularity", ignore.case = TRUE))
   }
+  readr::read_lines(file = paste(directory, results$names[i], sep = ""))
   # create a DF of results
   # list to DF
   df <- do.call(cbind.data.frame, results)
