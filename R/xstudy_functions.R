@@ -320,4 +320,22 @@ MplusErrors <- function(directory = getwd(), filePattern = NULL) {
   # df <- plyr::ldply (results, data.frame)
   return(df)
 }
+
+
+MplusElapsedTime <- function(pathToFile) {
+  # TODO
+  # Check that the file is a .out file
+  # Read in file
+  tmp <- readLines(pathToFile)
+  tmp <- tmp[length(tmp)-13]
+  seconds <- as.integer(substr(tmp,  start = nchar(tmp)-1, stop = nchar(tmp)))
+  minutes <- as.integer(substr(tmp,  start = nchar(tmp)-4, stop = nchar(tmp)-3))
+  totalsec <- (minutes*60)+seconds
+  totalmin <- round(totalsec/60, digits = 1)
+  # Subset the elapsed time
+  #return(paste(pathToFile, ": ", minutes, "min ", seconds, "s"), sep = "")
+  #return(paste(pathToFile, ": ", totalsec, " seconds", sep = ""))
+  return(totalmin)
+}
+
 # adding some work from the UNC computer
