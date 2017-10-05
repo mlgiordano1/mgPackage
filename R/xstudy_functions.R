@@ -324,6 +324,11 @@ MplusErrors <- function(directory = getwd(), filePattern = NULL) {
 
 MplusElapsedTime <- function(pathToFile) {
   # TODO
+  if (substr(pathToFile,
+             start = nchar(pathToFile)-3,
+             stop  = nchar(pathToFile)) != ".out") {
+    stop("File needs to be an Mplus '.out' file")
+  }
   # Check that the file is a .out file
   # Read in file
   tmp <- readLines(pathToFile)
