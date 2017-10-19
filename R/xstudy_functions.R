@@ -237,20 +237,20 @@ harmonize <- function(data, varnames, scenario, oldvalue, newvalue) {
 
 
 TestDifModels <- function(directory = getwd(),
-                          nameOfImpactModel,
+                          nameOfRefModel,
                           namesofDifModels,
                           allMplusSummaries = NULL) {
   # To do
   # 2. option to feed in MPLUS extracted models and not read everytime
   # make all names lowercase
-  nameOfImpactModel <- tolower(nameOfImpactModel)
+  nameOfRefModel <- tolower(nameOfRefModel)
   namesofDifModels  <- tolower(namesofDifModels)
   # if user provodes the dataframe of all models use that
   if (is.null(allMplusSummaries)) {
     allMplusSummaries <- MplusAutomation::extractModelSummaries(target = directory)
   }
   # Save the Comparison Model
-  refModel <- allMplusSummaries[grep(nameOfImpactModel,
+  refModel <- allMplusSummaries[grep(nameOfRefModel,
                                      allMplusSummaries$Filename),           # Select Rows
                                 c("Filename", "Parameters", "LL", "BIC")]   # Select Cols
   # Save the other models in a dataframe
