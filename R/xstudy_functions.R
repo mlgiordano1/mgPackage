@@ -306,9 +306,10 @@ MplusErrors <- function(directory = getwd(), filePattern = NULL) {
   for (i in seq(results$names)) {
     #temp                          <- readLines(paste(directory, results$names[i], sep = ""))
     temp                          <- readr::read_lines(file = paste(directory, results$names[i], sep = ""))
-    results$normally[i]           <- any(grepl(x=temp, pattern = "normally", ignore.case = TRUE))
+    results$NONnorm_terminate[i]           <- any(grepl(x=temp, pattern = "MODEL ESTIMATION DID NOT TERMINATE NORMALLY", ignore.case = TRUE))
     results$saddle[i]             <- any(grepl(x=temp, pattern = "saddle", ignore.case = TRUE))
     results$avoidSingularity[i]   <- any(grepl(x=temp, pattern = "avoid singularity", ignore.case = TRUE))
+
   }
   readr::read_lines(file = paste(directory, results$names[i], sep = ""))
   # create a DF of results
