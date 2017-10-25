@@ -344,4 +344,16 @@ MplusElapsedTime <- function(pathToFile) {
   return(totalmin)
 }
 
+# Useful function - maybe put this in my package?
+moveFiles <- function(filePattern, from, to = getwd()) {
+  # todo
+  # get the files in the to directory
+  f <- list.files(path = from, pattern = filePattern)
+  # loop through and change them all
+  for (i in seq(f)) {
+  file.rename(from = paste(from, "/", f[i], sep = ""),
+              to   = paste(to, "/", f[i], sep = ""))
+  }
+}
+
 # adding some work from the UNC computer
