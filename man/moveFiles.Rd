@@ -5,7 +5,7 @@
 A function to batch move files from one directory to another
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This function makes it easier for me to move files. Mostly used as a part of my xstudy work
 }
 \usage{
 moveFiles(x)
